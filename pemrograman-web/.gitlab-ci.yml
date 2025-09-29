@@ -1,0 +1,13 @@
+image: alpine
+
+stages:
+  - deploy
+
+deploy:
+  stage: deploy
+  before_script:
+    - apk update && apk add lftp
+  script:
+    - lftp -c "set ssl:verify-certificate no; open -u $FTP_USERNAME,$FTP_PASSWORD $FTP_HOST; mirror -R ./Project-Pemrograman- /"
+  only:
+    - main

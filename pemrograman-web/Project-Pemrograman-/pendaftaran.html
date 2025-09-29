@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Pendaftaran Skripsi | FTI UNMER</title>
+  <link rel="icon" type="image/png" href="assets/images/logo/logofti.png" />
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css"/>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css"/>
+  <style>
+    body {
+      margin: 0;
+      font-family: Arial, sans-serif;
+      background: url('assets/images/logofti.png') no-repeat center center;
+      background-size: cover;
+      color: white;
+      position: relative;
+    }
+
+    .overlay {
+      background: rgba(0, 0, 0, 0.7);
+      min-height: 100vh;
+      padding: 20px;
+    }
+
+    .top-bar {
+      background-color: #ffffff;
+      color: #333;
+      padding: 10px 0;
+      text-align: center;
+      font-weight: bold;
+    }
+
+    .navbar {
+      background-color: #fff;
+    }
+
+    .navbar-brand img {
+      height: 50px;
+    }
+
+    .sosmed-icons {
+      position: absolute;
+      top: 15px;
+      right: 20px;
+    }
+
+    .sosmed-icons a {
+      color: #333;
+      margin: 0 5px;
+    }
+
+    .form-container {
+      background: rgba(255, 255, 255, 0.9);
+      padding: 30px;
+      border-radius: 8px;
+      color: #000;
+    }
+
+    .maskot {
+      position: fixed;
+      bottom: 10px;
+      right: 10px;
+      width: 80px;
+    }
+  </style>
+</head>
+<body>
+  <div class="overlay">
+    <div class="top-bar">
+      Selamat Datang di Halaman Pendaftaran Skripsi FTI UNMER
+    </div>
+
+    <nav class="navbar navbar-expand-lg navbar-light shadow-sm">
+      <div class="container">
+        <a class="navbar-brand" href="index.html">
+          <img src="assets/images/logo/logofti.png" alt="FTI UNMER">
+        </a>
+        <div class="sosmed-icons">
+          <a href="#"><i class="fab fa-facebook-square fa-lg"></i></a>
+          <a href="#"><i class="fab fa-youtube fa-lg"></i></a>
+          <a href="#"><i class="fab fa-instagram fa-lg"></i></a>
+        </div>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse justify-content-end" id="navbarNav">
+          <ul class="navbar-nav">
+            <li class="nav-item"><a class="nav-link" href="index.html">Home</a></li>
+            <li class="nav-item"><a class="nav-link" href="profil.html">Profil</a></li>
+            <li class="nav-item active"><a class="nav-link" href="pendaftaran.html">Pendaftaran Skripsi</a></li>
+            <li class="nav-item"><a class="nav-link" href="persyaratan.html">Persyaratan</a></li>
+            <li class="nav-item"><a class="nav-link" href="jadwal.html">Jadwal</a></li>
+            <li class="nav-item"><a class="nav-link" href="status.php">Status Pengajuan</a></li>
+          </ul>
+        </div>
+      </div>
+    </nav>
+
+    <!-- FORM PENDAFTARAN -->
+    <div class="container mt-5">
+      <div class="form-container">
+        <h3 class="mb-4">Form Pendaftaran Skripsi</h3>
+        <form id="formDaftar" onsubmit="kirimData(event)">
+          <div class="form-group">
+            <label for="nama">Nama Lengkap</label>
+            <input type="text" name="nama" id="nama" class="form-control" required>
+          </div>
+          <div class="form-group">
+            <label for="nim">NIM</label>
+            <input type="text" name="nim" id="nim" class="form-control" required>
+          </div>
+          <div class="form-group">
+            <label for="judul">Judul Skripsi</label>
+            <input type="text" name="judul" id="judul" class="form-control" required>
+          </div>
+          <div class="form-group">
+            <label for="pembimbing">Pembimbing</label>
+            <select name="pembimbing" id="pembimbing" class="form-control">
+              <option value="1">Dosen A</option>
+              <option value="2">Dosen B</option>
+            </select>
+          </div>
+          <button type="submit" class="btn btn-primary">Daftar</button>
+        </form>
+      </div>
+    </div>
+
+    <img src="assets/images/logofti.png" alt="logo" class="maskot" />
+  </div>
+
+  <!-- SCRIPT AJAX -->
+  <script>
+    function kirimData(event) {
+      event.preventDefault();
+
+      const form = document.getElementById("formDaftar");
+      const formData = new FormData(form);
+
+      fetch("proses_daftar.php", {
+        method: "POST",
+        body: formData,
+      })
+      .then(response => response.text())
+      .then(data => {
+        alert(data);  // Munculkan alert dengan respon dari PHP
+        form.reset(); // Reset form setelah berhasil
+      })
+      .catch(error => {
+        console.error("Error:", error);
+        alert("Terjadi kesalahan saat mengirim data!");
+      });
+    }
+  </script>
+  <script>
+  // Tampilkan pop-up kalau berhasil daftar
+  const urlParams = new URLSearchParams(window.location.search);
+  if (urlParams.get("success") === "1") {
+    alert("Pendaftaran berhasil disimpan!");
+  }
+</script>
+
+
+  <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.2/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>
