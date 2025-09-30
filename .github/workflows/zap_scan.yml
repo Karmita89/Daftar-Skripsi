@@ -1,0 +1,22 @@
+name: OWASP ZAP Scan
+
+on:
+  workflow_dispatch:   # bisa dijalankan manual
+  schedule:
+    - cron: '0 0 * * 0'  # otomatis tiap minggu
+
+jobs:
+  zap_scan:
+    runs-on: ubuntu-latest
+    steps:
+      - name: ZAP Baseline Scan
+        uses: zaproxy/action-baseline@v0.9.0
+        with:
+          target: "https://ciwiproject.wuaze.com/"
+          cmd_options: "-r report.html"
+
+      - name: Upload ZAP Report
+        uses: actions/upload-artifact@v4
+        with:
+          name: zap-report
+          path: report.html
