@@ -1,34 +1,31 @@
 name: OWASP ZAP Scan
 
 on:
-  workflow_dispatch:
+  workflow_dispatch:    # bisa dijalankan manual
   schedule:
-    - cron: '0 0 * * 0'
+    - cron: '0 0 * * 0' # otomatis tiap minggu
 
 jobs:
   zap_scan:
     runs-on: ubuntu-latest
+
     steps:
-      - name: ZAP Baseline Scan
+      - name: Jalankan ZAP Baseline Scan
         uses: zaproxy/action-baseline@v0.9.0
         with:
           target: "https://ciwiproject.wuaze.com/"
-          cmd_options: "-r report_html.html"
+          cmd_options: "-r zap-report.html"
+          token: ""   # cegah auto-buat issue → biar ga error
 
       - name: Upload ZAP Report (HTML)
         uses: actions/upload-artifact@v4
         with:
-          name: zap-report-html
-          path: report_html.html
+          name: zap-report
+          path: zap-report.html
 
-      - name: Upload ZAP Report (Markdown)
-        uses: actions/upload-artifact@v4
-        with:
-          name: zap-report-md
-          path: report_md.md
-
-      - name: Upload ZAP Report (JSON)
-        uses: actions/upload-artifact@v4
-        with:
-          name: zap-report-json
-          path: report_json.json
+      - name: Tambahkan ringkasan ke Job Summary
+        run: |
+          echo "## OWASP ZAP Scan Summary" >> $GITHUB_STEP_SUMMARY
+          echo "Target: https://ciwiproject.wuaze.com/?i=1" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "📊 Report lengkap ada di artifact **zap-report**." >> $GITHUB_STEP_SUMMARY
