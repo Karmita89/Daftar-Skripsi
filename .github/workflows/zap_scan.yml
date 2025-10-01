@@ -15,7 +15,8 @@ jobs:
         with:
           target: "https://ciwiproject.wuaze.com/"
           cmd_options: "-r zap-report.html"
-          token: ""   # cegah auto-buat issue → biar ga error
+          token: ""                   # cegah auto-buat issue
+          allow_issue_writing: false  # fix biar gak coba nulis issue
 
       - name: Upload ZAP Report (HTML)
         uses: actions/upload-artifact@v4
@@ -26,6 +27,6 @@ jobs:
       - name: Tambahkan ringkasan ke Job Summary
         run: |
           echo "## OWASP ZAP Scan Summary" >> $GITHUB_STEP_SUMMARY
-          echo "Target: https://ciwiproject.wuaze.com/?i=1" >> $GITHUB_STEP_SUMMARY
+          echo "Target: https://ciwiproject.wuaze.com/" >> $GITHUB_STEP_SUMMARY
           echo "" >> $GITHUB_STEP_SUMMARY
           echo "📊 Report lengkap ada di artifact **zap-report**." >> $GITHUB_STEP_SUMMARY
