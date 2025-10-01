@@ -5,9 +5,6 @@ on:
   schedule:
     - cron: '0 0 * * 0'
 
-permissions:
-  contents: read
-
 jobs:
   zap_scan:
     runs-on: ubuntu-latest
@@ -16,11 +13,22 @@ jobs:
         uses: zaproxy/action-baseline@v0.9.0
         with:
           target: "https://ciwiproject.wuaze.com/?i=1"
-          cmd_options: "-r report.html -m 5"
-          token: ""   # disable issue creation
+          cmd_options: "-r report_html.html"
 
-      - name: Upload ZAP Report
+      - name: Upload ZAP Report (HTML)
         uses: actions/upload-artifact@v4
         with:
-          name: zap-report
-          path: report.html
+          name: zap-report-html
+          path: report_html.html
+
+      - name: Upload ZAP Report (Markdown)
+        uses: actions/upload-artifact@v4
+        with:
+          name: zap-report-md
+          path: report_md.md
+
+      - name: Upload ZAP Report (JSON)
+        uses: actions/upload-artifact@v4
+        with:
+          name: zap-report-json
+          path: report_json.json
