@@ -21,7 +21,7 @@ jobs:
       - name: Upload ZAP Report (HTML)
         uses: actions/upload-artifact@v4
         with:
-          name: zap-report
+          name: zap-report    # ✅ gunakan tanda minus
           path: zap-report.html
 
       - name: Tambahkan ringkasan ke Job Summary
